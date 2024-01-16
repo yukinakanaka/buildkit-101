@@ -1,0 +1,22 @@
+version: '3'
+services:
+  service-python:
+    build:
+      context: ./service-python
+      dockerfile: Dockerfile.python.yaml
+      cache_from:
+        - type=local,src=./.buildkit-cache/service-python
+      cache_to:
+        - type=local,dest=./.buildkit-cache/service-python,mode=max
+    ports:
+      - 10080:80
+  service-rust:
+    build:
+      context: ./service-rust
+      dockerfile: Dockerfile.rust.yaml
+      cache_from:
+        - type=local,src=./.buildkit-cache/service-rust
+      cache_to:
+        - type=local,dest=./.buildkit-cache/service-rust,mode=max
+    ports:
+      - 18080:8080
