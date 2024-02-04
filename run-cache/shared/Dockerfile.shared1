@@ -1,0 +1,9 @@
+FROM debian:12.4-slim
+RUN mkdir -p /root/.cache
+COPY rebuild-trigger .
+
+RUN date
+RUN --mount=type=cache,id=shared-cache,target=/root/.cache,sharing=shared \
+  echo $(date)": Hello from shared1" >> /root/.cache/shared.log && \
+  cat /root/.cache/shared.log
+RUN date
