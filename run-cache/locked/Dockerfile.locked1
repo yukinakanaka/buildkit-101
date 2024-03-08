@@ -1,0 +1,15 @@
+FROM debian:12.4-slim
+RUN mkdir -p /root/.cache
+COPY rebuild-trigger .
+
+RUN date
+RUN --mount=type=cache,id=locked-cache,target=/root/.cache,sharing=locked \
+  echo $(date):" locked1 Locked" && \ 
+  echo $(date)": Hello from locked1" >> /root/.cache/locked.log && \
+  sleep 10 && \
+  echo "--- locked.log ---------" && \
+  cat /root/.cache/locked.log && \
+  echo "------------------------" && \
+  echo $(date):" locked1 Unlocked" 
+
+RUN date
