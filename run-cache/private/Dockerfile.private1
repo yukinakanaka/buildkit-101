@@ -1,0 +1,15 @@
+FROM debian:12.4-slim
+RUN mkdir -p /root/.cache
+COPY rebuild-trigger .
+
+RUN date
+RUN --mount=type=cache,id=private-cache,target=/root/.cache,sharing=private \
+  echo $(date):" private1 is writing..." && \ 
+  echo $(date)": Hello from private1" >> /root/.cache/private.log && \
+  sleep 10 && \
+  echo "--- private.log ---------" && \
+  cat /root/.cache/private.log && \
+  echo "------------------------" && \
+  echo $(date):" private1 finish writing" 
+
+RUN date
